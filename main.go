@@ -14,9 +14,10 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/ssh"
 	"github.com/charmbracelet/wish"
-	//"github.com/charmbracelet/wish/bubbletea"
+	"github.com/charmbracelet/wish/activeterm"
+	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
-	//"github.com/muesli/termenv"
+	"github.com/softmaxer/jetstream/server"
 )
 
 const (
@@ -41,6 +42,8 @@ func main() {
 		wish.WithAddress(net.JoinHostPort(*args["host"], *args["port"])),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),
 		wish.WithMiddleware(
+			bubbletea.Middleware(server.TeaHandler),
+			activeterm.Middleware(),
 			logging.Middleware(),
 		),
 	)
